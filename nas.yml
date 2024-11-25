@@ -1,0 +1,8 @@
+---
+- name: Nextcloud
+  hosts: all
+  become: true
+  roles:
+    - nextcloud
+  vars_files:
+    - vault.yaml

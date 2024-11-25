@@ -1,0 +1,11 @@
+---
+# tasks file for nextcloud
+- name: Setup Nextcloud
+  ansible.builtin.include_tasks: setup.yml
+  tags: nextcloud
+
+- name: Remove Nextcloud
+  ansible.builtin.include_tasks: remove.yml
+  tags:
+    - remove
+    - never

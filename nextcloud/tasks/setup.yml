@@ -1,0 +1,55 @@
+---
+- name: Create Docker Network
+  community.docker.docker_network:
+    name: nextcloud_network
+    state: present
+
+- name: Pull MariaDB Docker Image
+  community.docker.docker_image:
+    name: mariadb:latest
+    source: pull
+
+- name: Start MariaDB Container
+  community.docker.docker_container:
+    name: mariadb
+    image: mariadb:latest
+    network_mode: nextcloud_network
+    env:
+      MYSQL_ROOT_PASSWORD: "{{ mysql_root_pwd }}"
+      MYSQL_DATABASE: "{{ mysql_db }}"
+      MYSQL_USER: "{{ mysql_user }}"
+      MYSQL_PASSWORD: "{{ mysql_user_pwd }}"
+    state: started
+    restart_policy: always
+
+- name: Pull Nextcloud Docker Image
+  community.docker.docker_image:
+    name: nextcloud:latest
+    source: pull
+
+- name: Ensure /srv exists
+  ansible.builtin.file:
+    path: /srv
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+  become: true
+
+- name: Start Nextcloud Container
+  community.docker.docker_container:
+    name: nextcloud
+    image: nextcloud:latest
+    network_mode: nextcloud_network
+    ports:
+      - "8081:80"
+    volumes:
+      - "/srv/nextcloud:/var/www/html"
+      - "/mnt/nas/:/mnt"
+    env:
+      MYSQL_HOST: mariadb
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: nextcloud
+      MYSQL_PASSWORD: meow
+    state: started
+    restart_policy: always
