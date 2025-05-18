@@ -2,6 +2,7 @@
 - name: Remove Nextcloud
   tags:
     - remove
+    - udpate
   block:
     - name: Stop Nextcloud Container
       community.docker.docker_container:
@@ -11,14 +12,4 @@
     - name: Delete Nextcloud Container
       community.docker.docker_container:
         name: nextcloud
-        state: absent
-
-    - name: Stop MariaDB Container
-      community.docker.docker_container:
-        name: mariadb
-        state: stopped
-
-    - name: Delete MariaDB Container
-      community.docker.docker_container:
-        name: mariadb
         state: absent

@@ -9,3 +9,10 @@
   tags:
     - remove
     - never
+    - update
+
+- name: Update
+  ansible.builtin.include_tasks: setup.yml
+  tags:
+    - never
+    - update
