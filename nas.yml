@@ -1,6 +1,7 @@
 ---
 - name: Nextcloud
-  hosts: 192.168.0.7
+  hosts: all
   become: true
   roles:
+    - postgres
     - nextcloud

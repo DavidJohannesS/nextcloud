@@ -1,0 +1,12 @@
+---
+
+postgres_img: "postgres"
+postgres_ver: "17"
+postgres_container: "Nextcloud-DB"
+postgres_port: 5432
+postgres_volume: "Nextcloud-Postgres"
+
+# db creds
+postgres_user: "nextcloud"
+postgres_pwd: "nextcloud"
+postgres_db: "nextcloud"

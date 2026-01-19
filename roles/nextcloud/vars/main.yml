@@ -1,0 +1,13 @@
+---
+docker_image: "nextcloud:latest"
+container_name: "nextcloud"
+container_volume: "nextcloud_config"
+host_port: 8081
+container_port: 80
+container_data_volume: "/media/cloud/nextcloud"
+
+ansible_user: "david"
+postgres_db: "nextcloud"
+postgres_user: "nextcloud"
+postgres_host: "192.168.0.5:5432"
+postgres_pwd: "nextcloud"

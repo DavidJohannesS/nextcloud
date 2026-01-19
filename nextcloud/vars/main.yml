@@ -1,6 +1,0 @@
----
-ansible_user: "david"
-postgres_db: "nextcloud"
-postgres_user: "postgres"
-postgres_host: "192.168.0.7:5432"
-postgres_pwd: "testpwd"

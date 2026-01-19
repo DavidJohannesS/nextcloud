@@ -1,0 +1,39 @@
+---
+- name: Setup Nextcloud with latest img
+  tags:
+    - setup
+    - update
+  block:
+    - name: Pull Nextcloud Docker Image
+      community.docker.docker_image:
+        name: "{{ docker_image }}"
+        source: pull
+
+    - name: Ensure volume exists
+      community.docker.docker_volume:
+        name: "{{ container_volume }}"
+        state: present
+
+    - name: Start Nextcloud Container
+      community.docker.docker_container:
+        name: "{{ container_name }}"
+        image: "{{ docker_image }}"
+        ports:
+          - "{{ host_port }}:{{ container_port }}"
+        volumes:
+          - "{{ container_volume }}:/var/www/html"
+          - "{{ container_data_volume }}:/var/www/html/data"
+        env:
+          POSTGRES_HOST: "{{ postgres_host }}"
+          POSTGRES_DB: "{{ postgres_db }}"
+          POSTGRES_USER: "{{ postgres_user }}"
+          POSTGRES_PASSWORD: "{{ postgres_pwd }}"
+        state: started
+        restart_policy: always
+
+    - name: Ensure Nextcloud cronjob exists
+      ansible.builtin.cron:
+        name: "Nextcloud background jobs"
+        minute: "*/5"
+        user: "{{ ansible_user }}"
+        job: "docker exec -u www-data nextcloud php -f /var/www/html/cron.php"

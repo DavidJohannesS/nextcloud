@@ -1,18 +1,19 @@
 ---
 # tasks file for nextcloud
 - name: Setup Nextcloud
-  ansible.builtin.include_tasks: setup.yml
-  tags: nextcloud
+  ansible.builtin.include_tasks: setup.yaml
+  tags:
+    - setup
 
 - name: Remove Nextcloud
-  ansible.builtin.include_tasks: remove.yml
+  ansible.builtin.include_tasks: remove.yaml
   tags:
     - remove
     - never
     - update
 
 - name: Update
-  ansible.builtin.include_tasks: setup.yml
+  ansible.builtin.include_tasks: setup.yaml
   tags:
     - never
     - update
