@@ -1,13 +1,24 @@
 ---
-docker_image: "nextcloud:latest"
+container_image: "nextcloud"
+image_tag: "latest"
 container_name: "nextcloud"
-container_volume: "nextcloud_config"
-host_port: 8081
+host_port: 80
 container_port: 80
-container_data_volume: "/media/cloud/nextcloud"
+smb_data: "/media/cloud/nextcloud"
+service_description: "Nextcloud Container Service"
 
-ansible_user: "david"
+cron_schedule: "*-*-* 03:00:00"
 postgres_db: "nextcloud"
 postgres_user: "nextcloud"
-postgres_host: "192.168.0.5:5432"
+postgres_host: "192.168.0.14:5432"
 postgres_pwd: "nextcloud"
+
+
+options: >-
+  -v nextcloud-config:/var/www/html
+  -v {{ smb_data }}:/var/www/html/data
+  -p {{ host_port }}:{{ container_port }}
+  -e POSTGRES_HOST={{ postgres_host }}
+  -e POSTGRES_DB={{ postgres_db }}
+  -e POSTGRES_USER={{ postgres_user }}
+  -e POSTGRES_PASSWORD={{ postgres_pwd }}

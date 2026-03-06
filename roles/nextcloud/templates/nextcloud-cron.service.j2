@@ -1,0 +1,6 @@
+[Unit]
+Description=Nextcloud Cron
+
+[Service]
+Type=oneshot
+ExecStart=/bin/docker exec -u www-data {{ container_name }} php -f /var/www/html/cron.php

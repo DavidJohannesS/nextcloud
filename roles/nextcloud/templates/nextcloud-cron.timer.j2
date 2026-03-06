@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Nextcloud Cron
+
+[Timer]
+OnBootSec=20min
+OnUnitActiveSec=5min
+Persistent=true
+
+[Install]
+WantedBy=timers.target
